@@ -1,0 +1,1 @@
+public class PlayerAnimator : EntityAnimator { }
