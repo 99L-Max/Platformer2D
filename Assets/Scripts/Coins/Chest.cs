@@ -5,8 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(CoinSpawner))]
 public class Chest : MonoBehaviour
 {
-    private readonly int IsOpened = Animator.StringToHash(nameof(IsOpened));
-
     private Animator _animator;
     private AudioSource _audioOpen;
     private CoinSpawner _coinsSpawner;
@@ -25,7 +23,7 @@ public class Chest : MonoBehaviour
         {
             _isOpened = true;
             _audioOpen.Play();
-            _animator.SetBool(IsOpened, _isOpened);
+            _animator.SetBool(AnimatorData.ChestParams.IsOpened, _isOpened);
             _coinsSpawner.Spawn();
         }
     }

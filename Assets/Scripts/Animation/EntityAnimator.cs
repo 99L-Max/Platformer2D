@@ -5,17 +5,14 @@ public class EntityAnimator : MonoBehaviour
     [SerializeField] private Animator _animator;
     [SerializeField] private Transform _root;
 
-    private readonly int IsJumping = Animator.StringToHash(nameof(IsJumping));
-    private readonly int IsRunning = Animator.StringToHash(nameof(IsRunning));
-
     public void UpdateAnimationRunning(bool isRunning)
     {
-        _animator.SetBool(IsRunning, isRunning);
+        _animator.SetBool(AnimatorData.EntityParams.IsRunning, isRunning);
     }
 
     public void UpdateAnimationJumping(bool isJumping)
     {
-        _animator.SetBool(IsJumping, isJumping);
+        _animator.SetBool(AnimatorData.EntityParams.IsJumping, isJumping);
     }
 
     public void SetDirectionX(float x)

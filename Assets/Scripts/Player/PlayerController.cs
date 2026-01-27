@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
         _actions.PlayerInput.Move.canceled += Move;
         _actions.PlayerInput.Jump.started += Jump;
 
+        _groundChecker.ValueChanged += UpdateAnimationJumping;
         _actions.Enable();
     }
 
@@ -29,12 +30,8 @@ public class PlayerController : MonoBehaviour
         _actions.PlayerInput.Move.canceled -= Move;
         _actions.PlayerInput.Jump.started -= Jump;
 
+        _groundChecker.ValueChanged -= UpdateAnimationJumping;
         _actions.Disable();
-    }
-
-    private void FixedUpdate()
-    {
-        _animator.UpdateAnimationJumping(_groundChecker.IsGrounded == false);
     }
 
     private void Jump(InputAction.CallbackContext callback)
@@ -42,7 +39,6 @@ public class PlayerController : MonoBehaviour
         if (_groundChecker.IsGrounded)
         {
             _mover.Jump();
-            _animator.UpdateAnimationJumping(true);
         }
     }
 
@@ -54,5 +50,10 @@ public class PlayerController : MonoBehaviour
         _mover.Move(direction);
         _animator.SetDirectionX(direction.x);
         _animator.UpdateAnimationRunning(isRunning);
+    }
+
+    private void UpdateAnimationJumping(bool isGrounted)
+    {
+        _animator.UpdateAnimationJumping(isGrounted == false);
     }
 }

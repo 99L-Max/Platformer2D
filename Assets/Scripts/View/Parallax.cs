@@ -3,6 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(Renderer))]
 public class Parallax : MonoBehaviour
 {
+    private const string TextureName = "_MainTex";
+
     private Material _material;
     private float _distance;
 
@@ -16,6 +18,6 @@ public class Parallax : MonoBehaviour
     private void Update()
     {
         _distance += Time.deltaTime * Speed;
-        _material.SetTextureOffset("_MainTex", Vector2.right * _distance);
+        _material.SetTextureOffset(TextureName, Vector2.right * _distance);
     }
 }
