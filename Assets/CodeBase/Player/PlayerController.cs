@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator _animator;
     [SerializeField] private GroundChecker _groundChecker;
     [SerializeField] private PlayerAttaker _attaker;
-    [SerializeField] private AnimatorLayer _layerDamage;
     [SerializeField] private Health _health;
 
     private PlayerActions _actions;
@@ -28,7 +27,6 @@ public class PlayerController : MonoBehaviour
         _actions.PlayerInput.Attack.started += Attack;
 
         _groundChecker.ValueChanged += UpdateAnimationJumping;
-        _health.HealthChanged += OnHealthChanged;
         _health.Died += OnDied;
 
         _actions.Enable();
@@ -42,7 +40,6 @@ public class PlayerController : MonoBehaviour
         _actions.PlayerInput.Attack.started -= Attack;
 
         _groundChecker.ValueChanged -= UpdateAnimationJumping;
-        _health.HealthChanged -= OnHealthChanged;
         _health.Died -= OnDied;
 
         _actions.Disable();
@@ -74,14 +71,6 @@ public class PlayerController : MonoBehaviour
     private void Attack(InputAction.CallbackContext callback)
     {
         _attaker.TryAttack();
-    }
-
-    private void OnHealthChanged(float currentHealth, bool isDamage)
-    {
-        if (isDamage)
-        {
-            _layerDamage.ShowLayer(AnimatorData.PlayerParams.DamageLayer);
-        }
     }
 
     private void OnDied()

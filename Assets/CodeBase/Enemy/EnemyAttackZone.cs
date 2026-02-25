@@ -7,6 +7,7 @@ using UnityEngine;
 public class EnemyAttackZone : MonoBehaviour
 {
     private readonly List<Player> _players = new();
+    private Player _targetPlayer;
 
     public event Action<Player> TargetPlayerChanged;
 
@@ -15,7 +16,12 @@ public class EnemyAttackZone : MonoBehaviour
         if (collision.TryGetComponent(out Player player))
         {
             _players.Add(player);
-            TargetPlayerChanged?.Invoke(player);
+
+            if (_targetPlayer == null)
+            {
+                _targetPlayer = player;
+                TargetPlayerChanged?.Invoke(player);
+            }
         }
     }
 
@@ -24,10 +30,9 @@ public class EnemyAttackZone : MonoBehaviour
         if (collision.TryGetComponent(out Player player))
         {
             _players.Remove(player);
+            _targetPlayer = _players.Count() > 0 ? _players.First() : null;
 
-            var targetPlayer = _players.Count() > 0 ? _players.First() : null;
-
-            TargetPlayerChanged?.Invoke(targetPlayer);
+            TargetPlayerChanged?.Invoke(_targetPlayer);
         }
     }
 

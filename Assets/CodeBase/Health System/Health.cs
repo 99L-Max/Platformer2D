@@ -3,37 +3,30 @@ using UnityEngine;
 
 public class Health : MonoBehaviour, IDamageable, IRegeneratable
 {
-    [SerializeField] private float _maxHealth = 20f;
-    [SerializeField] private AudioSource _audioRegenerate;
-    [SerializeField] private AudioSource _audioDamage;
-    [SerializeField] private AudioSource _audioDead;
-    [SerializeField] private Animator _animator;
+    private const float MinHealth = 0f;
 
-    private float _currentHealth;
     public delegate void HealthHandler(float currentHealth, bool isDamage);
 
     public event HealthHandler HealthChanged;
     public event Action Died;
 
+    [field: SerializeField, Min(1f)] public float MaxHealth { get; private set; } = 20f;
+    public float CurrentHealth { get; private set; }
+
     private void Awake()
     {
-        _currentHealth = _maxHealth;
+        CurrentHealth = MaxHealth;
     }
 
     public void TakeDamage(float damage)
     {
         if (damage > 0f)
         {
-            _currentHealth -= damage;
+            CurrentHealth = Mathf.Clamp(CurrentHealth - damage, MinHealth, MaxHealth);
+            HealthChanged?.Invoke(CurrentHealth, true);
 
-            if (_currentHealth > 0f)
-            {
-                ReportDamage();
-            }
-            else
-            {
-                ReportDeath();
-            }
+            if (CurrentHealth == MinHealth)
+                Died?.Invoke();
         }
     }
 
@@ -41,38 +34,15 @@ public class Health : MonoBehaviour, IDamageable, IRegeneratable
     {
         if (health > 0f)
         {
-            _currentHealth += health;
-
-            if (_currentHealth > _maxHealth)
-            {
-                _currentHealth = _maxHealth;
-            }
-
-            ReportRegeneration();
+            CurrentHealth = Mathf.Clamp(CurrentHealth + health, MinHealth, MaxHealth);
+            HealthChanged?.Invoke(CurrentHealth, false);
         }
     }
 
     public void Kill()
     {
-        _currentHealth = 0f;
-        ReportDeath();
-    }
-
-    private void ReportRegeneration()
-    {
-        _audioRegenerate.Play();
-        HealthChanged?.Invoke(_currentHealth, false);
-    }
-
-    private void ReportDamage()
-    {
-        _audioDamage.Play();
-        HealthChanged?.Invoke(_currentHealth, true);
-    }
-
-    private void ReportDeath()
-    {
-        _audioDead.Play();
+        CurrentHealth = MinHealth;
+        HealthChanged?.Invoke(CurrentHealth, true);
         Died?.Invoke();
     }
 }

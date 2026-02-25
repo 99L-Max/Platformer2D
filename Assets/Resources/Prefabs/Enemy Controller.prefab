@@ -10,12 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 896565270039776161}
   - component: {fileID: 8677337321507056728}
-  - component: {fileID: 4749233020510962372}
+  - component: {fileID: 807162295119165430}
+  - component: {fileID: 1176120907599889923}
   - component: {fileID: 8124855543419399727}
   - component: {fileID: 4374603358032596368}
   - component: {fileID: 3263508119280566417}
   m_Layer: 0
-  m_Name: Health
+  m_Name: Health System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,12 +49,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca566810c2161f4438b7ac78ba0612cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 15
-  _audioRegenerate: {fileID: 8124855543419399727}
-  _audioDamage: {fileID: 4374603358032596368}
-  _audioDead: {fileID: 3263508119280566417}
-  _animator: {fileID: 0}
---- !u!114 &4749233020510962372
+  <MaxHealth>k__BackingField: 20
+--- !u!114 &807162295119165430
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -62,11 +59,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 527820233335027989}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6caba8a3f158c864baf4739c7ca7b04b, type: 3}
+  m_Script: {fileID: 11500000, guid: 49b2a6042903f6b4f9043fb6ec8b3416, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _health: {fileID: 8677337321507056728}
+  _audioDamage: {fileID: 4374603358032596368}
+  _audioRegenerate: {fileID: 8124855543419399727}
+  _audioDied: {fileID: 3263508119280566417}
+--- !u!114 &1176120907599889923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 527820233335027989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b71d5210983d67f499124805ce703e14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: {fileID: 8677337321507056728}
   _animator: {fileID: 492479961975431909}
   _showTime: 1
+  _animatorLayerDamageIndex: 1
 --- !u!82 &8124855543419399727
 AudioSource:
   m_ObjectHideFlags: 0
@@ -686,8 +701,6 @@ MonoBehaviour:
   _enemy: {fileID: 3401090091136138735}
   _health: {fileID: 8677337321507056728}
   _attackZone: {fileID: 1554060446391970335}
-  _animator: {fileID: 492479961975431909}
-  _damageLayer: {fileID: 4749233020510962372}
 --- !u!1 &7874429767854752255
 GameObject:
   m_ObjectHideFlags: 0
