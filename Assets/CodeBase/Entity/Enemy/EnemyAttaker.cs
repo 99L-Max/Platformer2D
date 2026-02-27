@@ -7,7 +7,7 @@ public class EnemyAttaker : Attaker
         if (CanAttack && AtAttackDistance(player))
         {
             CanAttack = false;
-            player.Damageable.TakeDamage(Damage);
+            player.DamageTaker.TakeDamage(Damage);
 
             PlayAttackSound();
             StartCoroutine(Recover());

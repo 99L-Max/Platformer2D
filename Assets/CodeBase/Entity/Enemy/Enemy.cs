@@ -1,11 +1,10 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Entity
 {
     [SerializeField] private EnemyWay _way;
     [SerializeField] private EnemyAttaker _attaker;
     [SerializeField] private EnemyAttackZone _attackZone;
-    [SerializeField] private Health _health;
     [SerializeField] private Animator _animator;
 
     private StateMachine _stateMachine;
@@ -16,21 +15,27 @@ public class Enemy : MonoBehaviour
     [field: SerializeField] public float RunSpeed { get; private set; } = 6f;
 
     public bool HasTargetWayPointReached { get; private set; } = false;
-    public IDamageable DamageTaker => _health;
 
     private void Awake()
     {
         _stateMachine = new EnemyStateMachineFactory().Create(this, _way, _attaker, _attackZone, _animator);
     }
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        _attackZone.TargetPlayerChanged += OnTargetPlayerChanged;
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        _attackZone.TargetPlayerChanged -= OnTargetPlayerChanged;
+    }
+
     private void Update()
     {
         _stateMachine.Update();
-    }
-
-    public void SetTargetPlayer(Player player)
-    {
-        _targetPlayer = player;
     }
 
     public bool TryGetTargetPlayer(out Player player)
@@ -52,5 +57,18 @@ public class Enemy : MonoBehaviour
     public void ResetEnemyPositionStatus()
     {
         HasTargetWayPointReached = false;
+    }
+
+    protected override void OnDied()
+    {
+        _stateMachine.ChangeState(null);
+        _animator.SetBool(AnimatorData.EnemyParams.IsDied, true);
+
+        base.OnDied();
+    }
+
+    private void OnTargetPlayerChanged(Player player)
+    {
+        _targetPlayer = player;
     }
 }

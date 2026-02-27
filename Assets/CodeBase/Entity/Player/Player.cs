@@ -1,48 +1,46 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class Player : Entity
 {
-    [SerializeField] private Player _player;
     [SerializeField] private PlayerMover _mover;
     [SerializeField] private Animator _animator;
     [SerializeField] private GroundChecker _groundChecker;
     [SerializeField] private PlayerAttaker _attaker;
-    [SerializeField] private Health _health;
 
     private PlayerActions _actions;
     private Rotator _rotator;
 
-    private void Awake()
+    protected override void OnEnable()
     {
-        _actions = new PlayerActions();
-        _rotator = new Rotator();
-    }
+        base.OnEnable();
 
-    private void OnEnable()
-    {
         _actions.PlayerInput.Move.started += Move;
         _actions.PlayerInput.Move.canceled += Move;
         _actions.PlayerInput.Jump.started += Jump;
         _actions.PlayerInput.Attack.started += Attack;
 
         _groundChecker.ValueChanged += UpdateAnimationJumping;
-        _health.Died += OnDied;
-
         _actions.Enable();
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
+
         _actions.PlayerInput.Move.started -= Move;
         _actions.PlayerInput.Move.canceled -= Move;
         _actions.PlayerInput.Jump.started -= Jump;
         _actions.PlayerInput.Attack.started -= Attack;
 
         _groundChecker.ValueChanged -= UpdateAnimationJumping;
-        _health.Died -= OnDied;
-
         _actions.Disable();
+    }
+
+    private void Awake()
+    {
+        _actions = new PlayerActions();
+        _rotator = new Rotator();
     }
 
     private void Jump(InputAction.CallbackContext callback)
@@ -60,7 +58,7 @@ public class PlayerController : MonoBehaviour
 
         _mover.Move(direction);
         _animator.SetBool(AnimatorData.PlayerParams.IsRunning, isRunning);
-        _rotator.SetDirectionX(_player.transform, direction.x);
+        _rotator.SetDirectionX(transform, direction.x);
     }
 
     private void UpdateAnimationJumping(bool isGrounted)
@@ -73,8 +71,9 @@ public class PlayerController : MonoBehaviour
         _attaker.TryAttack();
     }
 
-    private void OnDied()
+    protected override void OnDied()
     {
-        _player.gameObject.SetActive(false);
+        _animator.SetBool(AnimatorData.PlayerParams.IsDied, true);
+        base.OnDied();
     }
 }

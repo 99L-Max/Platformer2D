@@ -9,16 +9,16 @@ public class HealthAudioPlayer : MonoBehaviour
 
     private void OnEnable()
     {
-        _health.HealthChanged += OnHealthChanged;
+        _health.ValueChanged += OnValueChanged;
         _health.Died += OnDied;
     }
 
     private void OnDisable()
     {
-        _health.HealthChanged -= OnHealthChanged;
+        _health.ValueChanged -= OnValueChanged;
     }
 
-    private void OnHealthChanged(float currentHealth, bool isDamage)
+    private void OnValueChanged(float currentHealth, bool isDamage)
     {
         if (isDamage)
             _audioDamage.Play();

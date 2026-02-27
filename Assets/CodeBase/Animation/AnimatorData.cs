@@ -9,6 +9,7 @@ public static class AnimatorData
 
         public static readonly int IsJumping = Animator.StringToHash(nameof(IsJumping));
         public static readonly int IsRunning = Animator.StringToHash(nameof(IsRunning));
+        public static readonly int IsDied = Animator.StringToHash(nameof(IsDied));
     }
 
     public static class EnemyParams
@@ -18,6 +19,7 @@ public static class AnimatorData
 
         public static readonly int IsPatrolling = Animator.StringToHash(nameof(IsPatrolling));
         public static readonly int IsFollowing = Animator.StringToHash(nameof(IsFollowing));
+        public static readonly int IsDied = Animator.StringToHash(nameof(IsDied));
     }
 
     public static class ChestParams
