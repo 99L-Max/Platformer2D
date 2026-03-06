@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class HealthAnimator : MonoBehaviour
 {
-    [SerializeField] private Health _health;
     [SerializeField] private Animator _animator;
     [SerializeField] private float _showTime = 1f;
     [SerializeField] private int _animatorLayerDamageIndex = 1;
@@ -15,22 +14,9 @@ public class HealthAnimator : MonoBehaviour
         _wait = new WaitForSeconds(_showTime);
     }
 
-    private void OnEnable()
+    public void ShowDamageAnimation()
     {
-        _health.ValueChanged += OnValueChanged;
-    }
-
-    private void OnDisable()
-    {
-        _health.ValueChanged -= OnValueChanged;
-    }
-
-    private void OnValueChanged(float currentHealth, bool isDamage)
-    {
-        if (isDamage)
-        {
-            StartCoroutine(ShowLayer());
-        }
+        StartCoroutine(ShowLayer());
     }
 
     private IEnumerator ShowLayer()

@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 374595284012337609}
   - component: {fileID: 3891532363991492998}
   m_Layer: 0
-  m_Name: Health Bar
+  m_Name: Smooth Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &1568360149058790359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,7 +230,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 868af9224c39cd74e8fbd20996bdfa3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: {fileID: 0}
   _barImage: {fileID: 8658768994163531774}
   _gradient:
     serializedVersion: 2

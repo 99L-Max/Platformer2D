@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class HealtBarTextView : HealthView
+public class TextBarView : BarView
 {
     [SerializeField] private TextMeshProUGUI _text;
     [SerializeField, Range(0, 2)] private int _decimalPlaces = 1;

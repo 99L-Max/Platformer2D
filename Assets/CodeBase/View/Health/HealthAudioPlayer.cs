@@ -2,32 +2,12 @@
 
 public class HealthAudioPlayer : MonoBehaviour
 {
-    [SerializeField] private Health _health;
-    [SerializeField] private AudioSource _audioDamage;
-    [SerializeField] private AudioSource _audioRegenerate;
-    [SerializeField] private AudioSource _audioDied;
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _audioDamage;
+    [SerializeField] private AudioClip _audioDied;
 
-    private void OnEnable()
+    public void PlayAudioDamage(bool isAlive)
     {
-        _health.ValueChanged += OnValueChanged;
-        _health.Died += OnDied;
-    }
-
-    private void OnDisable()
-    {
-        _health.ValueChanged -= OnValueChanged;
-    }
-
-    private void OnValueChanged(float currentHealth, bool isDamage)
-    {
-        if (isDamage)
-            _audioDamage.Play();
-        else
-            _audioRegenerate.Play();
-    }
-
-    private void OnDied()
-    {
-        _audioDied.Play();
+        _audioSource.PlayOneShot(isAlive ? _audioDamage : _audioDied);
     }
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBarView : HealthView
+public class LinearBarView : BarView
 {
     [SerializeField] private Image _barImage;
     [SerializeField] private Gradient _gradient;

@@ -21,7 +21,7 @@ public class PlayerAttaker : Attaker
         {
             if (hit.collider.TryGetComponent(out Enemy enemy))
             {
-                enemy.DamageTaker.TakeDamage(Damage);
+                enemy.TakeDamage(Damage);
                 return;
             }
         }

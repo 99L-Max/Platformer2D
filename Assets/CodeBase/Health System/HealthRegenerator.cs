@@ -7,9 +7,9 @@ public class HealthRegenerator : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.TryGetComponent(out HeartTaker taker))
+        if (other.TryGetComponent(out IRegeneratable taker))
         {
-            taker.Regenerator.Regenerate(_regeneratedHealth);
+            taker.Regenerate(_regeneratedHealth);
             Destroy(gameObject);
         }
     }

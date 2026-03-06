@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemy : Entity
+public class Enemy : Entity, IVampirable
 {
     [SerializeField] private EnemyWay _way;
     [SerializeField] private EnemyAttaker _attaker;
@@ -16,11 +16,6 @@ public class Enemy : Entity
 
     public bool HasTargetWayPointReached { get; private set; } = false;
 
-    private void Awake()
-    {
-        _stateMachine = new EnemyStateMachineFactory().Create(this, _way, _attaker, _attackZone, _animator);
-    }
-
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -31,6 +26,11 @@ public class Enemy : Entity
     {
         base.OnDisable();
         _attackZone.TargetPlayerChanged -= OnTargetPlayerChanged;
+    }
+
+    private void Awake()
+    {
+        _stateMachine = new EnemyStateMachineFactory().Create(this, _way, _attaker, _attackZone, _animator);
     }
 
     private void Update()

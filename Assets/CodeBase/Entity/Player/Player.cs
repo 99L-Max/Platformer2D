@@ -7,6 +7,7 @@ public class Player : Entity
     [SerializeField] private Animator _animator;
     [SerializeField] private GroundChecker _groundChecker;
     [SerializeField] private PlayerAttaker _attaker;
+    [SerializeField] private Ability _ability;
 
     private PlayerActions _actions;
     private Rotator _rotator;
@@ -19,6 +20,7 @@ public class Player : Entity
         _actions.PlayerInput.Move.canceled += Move;
         _actions.PlayerInput.Jump.started += Jump;
         _actions.PlayerInput.Attack.started += Attack;
+        _actions.PlayerInput.UseAbility.started += UseAbility;
 
         _groundChecker.ValueChanged += UpdateAnimationJumping;
         _actions.Enable();
@@ -32,6 +34,7 @@ public class Player : Entity
         _actions.PlayerInput.Move.canceled -= Move;
         _actions.PlayerInput.Jump.started -= Jump;
         _actions.PlayerInput.Attack.started -= Attack;
+        _actions.PlayerInput.UseAbility.started -= UseAbility;
 
         _groundChecker.ValueChanged -= UpdateAnimationJumping;
         _actions.Disable();
@@ -41,6 +44,13 @@ public class Player : Entity
     {
         _actions = new PlayerActions();
         _rotator = new Rotator();
+    }
+
+    protected override void OnDied()
+    {
+        _animator.SetBool(AnimatorData.PlayerParams.IsDied, true);
+        _ability.Cancel();
+        base.OnDied();
     }
 
     private void Jump(InputAction.CallbackContext callback)
@@ -61,19 +71,19 @@ public class Player : Entity
         _rotator.SetDirectionX(transform, direction.x);
     }
 
-    private void UpdateAnimationJumping(bool isGrounted)
-    {
-        _animator.SetBool(AnimatorData.PlayerParams.IsJumping, isGrounted == false);
-    }
-
     private void Attack(InputAction.CallbackContext callback)
     {
         _attaker.TryAttack();
     }
 
-    protected override void OnDied()
+
+    private void UseAbility(InputAction.CallbackContext obj)
     {
-        _animator.SetBool(AnimatorData.PlayerParams.IsDied, true);
-        base.OnDied();
+        _ability.Activate();
+    }
+
+    private void UpdateAnimationJumping(bool isGrounted)
+    {
+        _animator.SetBool(AnimatorData.PlayerParams.IsJumping, isGrounted == false);
     }
 }
